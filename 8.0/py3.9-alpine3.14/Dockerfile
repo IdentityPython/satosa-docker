@@ -13,6 +13,7 @@ RUN set -eux; \
 	apk add --no-cache \
 		bash \
 		jq \
+		libxml2-utils \
 		openssl \
 		xmlsec \
 	; \

@@ -129,6 +129,23 @@ function docker_create_config() {
 	_make_conffile plugins/microservices/static_attributes.yaml
 }
 
+function docker_pprint_metadata() {
+	# use the SAML2 backend keymat to temporarily sign the generated metadata
+	touch backend.xml frontend.xml
+	satosa-saml-metadata proxy_conf.yaml backend.key backend.crt
+
+	echo -----BEGIN SAML2 BACKEND METADATA-----
+	xq -x 'del(."ns0:EntityDescriptor"."ns1:Signature")' backend.xml | tee backend.xml.new
+	echo -----END SAML2 BACKEND METADATA-----
+
+	echo -----BEGIN SAML2 FRONTEND METADATA-----
+	xq -x 'del(."ns0:EntityDescriptor"."ns1:Signature")' frontend.xml | tee frontend.xml.new
+	echo -----BEGIN SAML2 FRONTEND METADATA-----
+
+	mv backend.xml.new backend.xml
+	mv frontend.xml.new frontend.xml
+}
+
 function _main() {
 	# if the first arg looks like a flag, assume it's for Gunicorn
 	if [ "${1:0:1}" = '-' ]; then
@@ -138,6 +155,7 @@ function _main() {
 	if [ "$1" = 'gunicorn' ]; then
 		docker_setup_env
 		docker_create_config
+		docker_pprint_metadata
 		exec "$@"
 	fi
 
