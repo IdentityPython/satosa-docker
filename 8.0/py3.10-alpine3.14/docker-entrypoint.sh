@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 
 # usage: file_env VAR [DEFAULT]
-#  i.e.: file_env 'XYZ_PASSWORD' 'example'
+#  e.g.: file_env 'XYZ_PASSWORD' 'example'
 # (will allow for "$XYZ_PASSWORD_FILE" to fill in the value of
 # "$XYZ_PASSWORD" from a file, especially for Docker's secrets
 # feature)
@@ -25,7 +25,7 @@ function file_env() {
 }
 
 # usage: version_gte FIRST_VERSON SECOND_VERSION
-#  i.e.: version_gte $SATOSA_VERSION 8.0.0
+#  e.g.: version_gte $SATOSA_VERSION 8.0.0
 # (will return true if the first version number is greater than or
 # equal to the second)
 function version_gte() {
@@ -44,7 +44,7 @@ function _is_sourced() {
 }
 
 # usage: _make_conffile DEST_FILE YQ_FILTER
-#  i.e.: _make_conffile proxy_conf.yaml
+#  e.g.: _make_conffile proxy_conf.yaml
 # (if DEST_FILE does not exist, create it from the config example,
 # passing it through YQ_FILTER)
 function _make_conffile() {
@@ -67,7 +67,7 @@ function _make_conffile() {
 }
 
 # usage: _make_selfsigned DEST_FILE COMMON_NAME
-#  i.e.: _make_selfsigned https
+#  e.g.: _make_selfsigned https
 # (if DEST_FILE.crt and DEST_FILE.key does not exist, generate a new
 # key pair; COMMON_NAME is optional and defaults to the hostname part
 # of $BASE_URL)
