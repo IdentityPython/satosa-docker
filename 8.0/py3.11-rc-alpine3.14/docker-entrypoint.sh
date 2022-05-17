@@ -140,7 +140,7 @@ function docker_pprint_metadata() {
 
 	echo -----BEGIN SAML2 FRONTEND METADATA-----
 	xq -x 'del(."ns0:EntityDescriptor"."ns1:Signature")' frontend.xml | tee frontend.xml.new
-	echo -----BEGIN SAML2 FRONTEND METADATA-----
+	echo -----END SAML2 FRONTEND METADATA-----
 
 	mv backend.xml.new backend.xml
 	mv frontend.xml.new frontend.xml
