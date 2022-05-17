@@ -82,7 +82,7 @@ function _make_selfsigned() {
 # load various settings used throughout the script
 function docker_setup_env() {
 	file_env BASE_URL                 https://example.com
-	file_env STATE_ENCRYPTION_KEY     asdASD123
+	file_env STATE_ENCRYPTION_KEY     $(python -c 'import random, string; print("".join(random.sample(string.ascii_letters+string.digits,32)))')
 	file_env SAML2_BACKEND_DISCO_SRV  https://service.seamlessaccess.org/ds/
 	file_env SAML2_BACKEND_CERT       ''
 	file_env SAML2_BACKEND_KEY        ''
