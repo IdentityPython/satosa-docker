@@ -1,5 +1,5 @@
 {
-  "8.0": {
+  "8.1": {
     "variants": [
       "py3.10-bullseye",
       "py3.10-slim-bullseye",
@@ -32,6 +32,6 @@
       "py3.9-alpine3.15",
       "py3.9-alpine3.14"
     ],
-    "version": "8.0.1"
+    "version": "8.1.0"
   }
 }
