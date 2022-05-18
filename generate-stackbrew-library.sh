@@ -43,7 +43,6 @@ dirCommit() {
 	)
 }
 
-# TODO: remove unsupported architectures (e.g., arm32, i386, mips, ppc, s390)
 getArches() {
 	# exclude this image (e.g., oneself) from the architecture lookup
 	local repo="$1"; shift
@@ -160,9 +159,6 @@ for version; do
 				variantArches="$(sed -r -e 's/ mips64le / /g' <<<" $variantArches ")"
 				;;
 		esac
-
-		# FIXME: filter out unsupported archictectures here?
-		variantArches="amd64"
 
 		echo
 		echo "Tags: $(join ', ' "${variantAliases[@]}")"
