@@ -68,10 +68,10 @@ getArches() {
 getArches 'satosa'
 
 cat <<-EOH
-# This file is generated via https://github.com/ibrsp/satosa/blob/$(fileCommit "$self")/$self
+# This file is generated via https://github.com/IdentityPython/satosa-docker/blob/$(fileCommit "$self")/$self
 
 Maintainers: Matthew X. Economou <economoum@niaid.nih.gov> (@niheconomoum)
-GitRepo: https://github.com/ibrsp/satosa.git
+GitRepo: https://github.com/IdentityPython/satosa-docker.git
 EOH
 
 # prints "$2$1$3$1...$N"
