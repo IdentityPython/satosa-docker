@@ -129,7 +129,6 @@ for version; do
 		variantAliases=( "${variantAliases[@]//latest-/}" )
 
 		case "$v" in
-			# FIXME: this broke with after modifying the variant naming scheme
 			windows/*)
 				variantArches='windows-amd64'
 				;;
