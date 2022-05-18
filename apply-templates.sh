@@ -44,7 +44,6 @@ for version; do
 		export variant
 
 		case "$dir" in
-			# FIXME: this maybe broke after modifying the variant naming scheme
 			windows/*)
 				windowsVariant="${variant%%-*}"               # "windowsservercore", "nanoserver"
 				windowsRelease="${variant#$windowsVariant-}"  # "ltsc2022", "1809", etc.
