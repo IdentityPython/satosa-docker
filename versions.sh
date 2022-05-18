@@ -40,8 +40,6 @@ for version in "${versions[@]}"; do
 	# pick the latest tagged release
 	fullVersion="${possibles[0]}"
 
-	# TODO: filter out unsupported versions of the base container image
-
 	# generate the versions.json entry for this SATOSA release
 	echo "$version: $fullVersion"
 	export fullVersion
