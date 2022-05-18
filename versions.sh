@@ -37,7 +37,7 @@ for version in "${versions[@]}"; do
 		)
 	)
 
-	# TODO: confirm with PyPI, but for now pick the latest tagged version
+	# pick the latest tagged release
 	fullVersion="${possibles[0]}"
 
 	# TODO: filter out unsupported versions of the base container image
