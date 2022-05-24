@@ -71,6 +71,7 @@ cat <<-EOH
 
 Maintainers: Matthew X. Economou <economoum@niaid.nih.gov> (@niheconomoum)
 GitRepo: https://github.com/IdentityPython/satosa-docker.git
+GitFetch: refs/heads/main
 EOH
 
 # prints "$2$1$3$1...$N"
