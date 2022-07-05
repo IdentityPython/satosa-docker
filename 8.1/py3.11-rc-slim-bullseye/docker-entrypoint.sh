@@ -97,6 +97,7 @@ function docker_create_config() {
 	_make_conffile proxy_conf.yaml '
 		.BASE = $ENV.BASE_URL
 			| .STATE_ENCRYPTION_KEY = $ENV.STATE_ENCRYPTION_KEY
+			| .FRONTEND_MODULES = [ "plugins/frontends/saml2_frontend.yaml", "plugins/frontends/ping_frontend.yaml" ]
 	'
 
 	_make_conffile internal_attributes.yaml '
@@ -119,6 +120,8 @@ function docker_create_config() {
 		del(.config.idp_config.metadata.local)
 			| .config.idp_config.metadata.remote = [{ "url": "https://samltest.id/saml/sp" }]
 	'
+	_make_conffile plugins/frontends/ping_frontend.yaml
+
 	if [ -n "${SAML2_FRONTEND_CERT}" -a -n "${SAML2_FRONTEND_KEY}" ]; then
 		_make_conffile frontend.crt '$ENV.SAML2_FRONTEND_CERT'
 		_make_conffile frontend.key '$ENV.SAML2_FRONTEND_KEY'
