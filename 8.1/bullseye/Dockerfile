@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.8-buster
+FROM python:3.10-bullseye
 
 # runtime dependencies
 RUN set -eux; \
@@ -20,7 +20,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.1.0
+ENV SATOSA_VERSION 8.1.1
 RUN set -eux; \
 	pip install --no-cache-dir \
 		ldap3 \

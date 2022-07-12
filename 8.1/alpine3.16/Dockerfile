@@ -4,56 +4,64 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.7-slim-buster
+FROM python:3.10-alpine3.16
 
 # runtime dependencies
 RUN set -eux; \
-	useradd -U satosa; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
+	addgroup satosa; \
+	adduser -D -G satosa satosa; \
+	apk add --no-cache \
+		bash \
 		jq \
 		libxml2-utils \
-		xmlsec1 \
+		openssl \
+		xmlsec \
 	; \
-	rm -rf /var/lib/apt/lists/*; \
 	pip install --no-cache-dir \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.1.0
+ENV SATOSA_VERSION 8.1.1
 RUN set -eux; \
-	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		dpkg-dev \
+	apk add --no-cache --virtual .build-deps \
+		bluez-dev \
+		bzip2-dev \
+		coreutils \
+		dpkg-dev dpkg \
+		expat-dev \
+		findutils \
 		gcc \
-		gnupg dirmngr \
-		libbluetooth-dev \
-		libbz2-dev \
-		libc6-dev \
-		libexpat1-dev \
+		gdbm-dev \
+		libc-dev \
 		libffi-dev \
-		libgdbm-dev \
-		liblzma-dev \
-		libncursesw5-dev \
-		libreadline-dev \
-		libsqlite3-dev \
-		libssl-dev \
+		libnsl-dev \
+		libtirpc-dev \
+		linux-headers \
 		make \
+		ncurses-dev \
+		openssl-dev \
+		pax-utils \
+		readline-dev \
+		sqlite-dev \
+		tcl-dev \
+		tk \
 		tk-dev \
-		uuid-dev \
-		wget \
-		xz-utils \
-		zlib1g-dev \
+		util-linux-dev \
+		xz-dev \
+		zlib-dev \
 	; \
 	pip install --no-cache-dir \
 		ldap3 \
 		satosa==${SATOSA_VERSION} \
 	; \
-	apt-mark auto '.*' > /dev/null; \
-	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /var/lib/apt/lists/*; \
+	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
+		| tr ',' '\n' \
+		| sort -u \
+		| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+		| fgrep -v libgcc_s- \
+		| xargs -rt apk add --no-network --virtual .satosa-rundeps \
+	; \
+	apk del --no-network .build-deps; \
 	mkdir /etc/satosa; \
 	chown -R satosa:satosa /etc/satosa
 
