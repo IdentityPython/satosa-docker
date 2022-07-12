@@ -153,13 +153,6 @@ for version; do
 			sharedTags+=( "${versionAliases[@]}" )
 		fi
 
-		case "$variant" in
-			*py3.10*)
-				# https://github.com/docker-library/python/issues/682
-				variantArches="$(sed -r -e 's/ mips64le / /g' <<<" $variantArches ")"
-				;;
-		esac
-
 		echo
 		echo "Tags: $(join ', ' "${variantAliases[@]}")"
 		if [ "${#sharedTags[@]}" -gt 0 ]; then
