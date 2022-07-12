@@ -16,13 +16,16 @@ else
 fi
 versions=( "${versions[@]%/}" )
 
-# grab list of Python container images, filtering out unsupported variants
-variants=$(
+# determine latest Python container version and supported variants
+eval $(
 	curl -s https://raw.githubusercontent.com/docker-library/python/master/versions.json \
-		| jq -r 'keys[] as $k | .[$k].variants | map("py\($k)-\(.)") | .[]' \
-		| grep -v windows
-		)
-export variants
+		| jq -r '
+			. as $versions
+			| [ $versions|keys[] | select(contains("-rc") | not) ] | sort_by(split(".") | map(tonumber)) | last as $latest
+			| [ $versions | .[$latest].variants[] | select(test("alpine3.16|bullseye")) ] | join(" ") as $variants
+			| @sh "export python_version=\($latest) variants=\($variants)"
+		'
+)
 
 for version in "${versions[@]}"; do
 	export version
@@ -45,8 +48,9 @@ for version in "${versions[@]}"; do
 	export fullVersion
 	json="$(jq <<<"$json" -c '
 		.[env.version] = {
-			variants: env.variants | split("\n"),
+			variants: env.variants | split(" "),
 			version: env.fullVersion,
+			python_version: env.python_version,
 		}
 	')"
 done
