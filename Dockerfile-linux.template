@@ -1,11 +1,11 @@
 {{
 	def is_alpine:
-		env.variant | contains("-alpine")
+		env.variant | contains("alpine")
 	;
 	def is_slim:
 		env.variant | contains("-slim-")
 -}}
-FROM python:{{ env.variant | ltrimstr("py")  }}
+FROM python:{{ env.python_version }}-{{ env.variant }}
 
 # runtime dependencies
 RUN set -eux; \
