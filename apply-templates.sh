@@ -36,6 +36,8 @@ for version; do
 	# reset all the generated Dockerfile
 	rm -rf "$version/"
 
+	eval $(jq -r '@sh "export python_version=\(.[env.version].python_version)"' versions.json)
+
 	variants="$(jq -r '.[env.version].variants | map(@sh) | join(" ")' versions.json)"
 	eval "variants=( $variants )"
 
