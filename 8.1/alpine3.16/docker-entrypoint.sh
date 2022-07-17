@@ -24,16 +24,6 @@ function file_env() {
 	unset "$fileVar"
 }
 
-# usage: version_gte FIRST_VERSON SECOND_VERSION
-#  e.g.: version_gte $SATOSA_VERSION 8.0.0
-# (will return true if the first version number is greater than or
-# equal to the second)
-function version_gte() {
-	# https://stackoverflow.com/questions/16989598/comparing-php-version-numbers-using-bash#24067243
-	test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" \
-		|| test "$1" = "$2"
-}
-
 # check to see if this file is being run or sourced from another
 # script
 function _is_sourced() {

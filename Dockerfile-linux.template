@@ -1,11 +1,8 @@
 {{
 	def is_alpine:
 		env.variant | contains("alpine")
-	;
-	def is_slim:
-		env.variant | contains("-slim-")
 -}}
-FROM python:{{ env.python_version }}-{{ env.variant }}
+FROM python:{{ env.python_version }}-{{ if is_alpine then env.variant else "slim-" + env.variant end }}
 
 # runtime dependencies
 RUN set -eux; \
@@ -64,7 +61,7 @@ RUN set -eux; \
 		xz-dev \
 		zlib-dev \
 	; \
-{{ ) elif is_slim then ( -}}
+{{ ) else ( -}}
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
@@ -89,7 +86,7 @@ RUN set -eux; \
 		xz-utils \
 		zlib1g-dev \
 	; \
-{{ ) else "" end -}}
+{{ ) end -}}
 	pip install --no-cache-dir \
 		satosa==${SATOSA_VERSION} \
 	; \
@@ -102,12 +99,12 @@ RUN set -eux; \
 		| xargs -rt apk add --no-network --virtual .satosa-rundeps \
 	; \
 	apk del --no-network .build-deps; \
-{{ ) elif is_slim then ( -}}
+{{ ) else ( -}}
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*; \
-{{ ) else "" end -}}
+{{ ) end -}}
 	mkdir /etc/satosa; \
 	chown -R satosa:satosa /etc/satosa
 

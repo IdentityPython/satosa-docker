@@ -8,8 +8,8 @@ FROM python:3.10-alpine3.16
 
 # runtime dependencies
 RUN set -eux; \
-	addgroup satosa; \
-	adduser -D -G satosa satosa; \
+	addgroup --gid 1000 satosa; \
+	adduser -D -G satosa --uid 1000 satosa; \
 	apk add --no-cache \
 		bash \
 		jq \
@@ -51,7 +51,6 @@ RUN set -eux; \
 		zlib-dev \
 	; \
 	pip install --no-cache-dir \
-		ldap3 \
 		satosa==${SATOSA_VERSION} \
 	; \
 	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
@@ -68,17 +67,14 @@ RUN set -eux; \
 # example configuration
 RUN set -eux; \
 	python -c 'import urllib.request; urllib.request.urlretrieve("https://github.com/IdentityPython/SATOSA/archive/refs/tags/v'${SATOSA_VERSION%%[a-z]*}'.tar.gz","/tmp/satosa.tgz")'; \
-	mkdir /tmp/satosa; \
-	tar --extract --directory /tmp/satosa --strip-components=1 --file /tmp/satosa.tgz; \
-	rm /tmp/satosa.tgz; \
-	mkdir -p /usr/share/satosa; \
-	cp -a /tmp/satosa/example /usr/share/satosa; \
-	rm -rf /tmp/satosa
+	mkdir /usr/share/satosa; \
+	tar --extract --directory /usr/share/satosa --strip-components=1 --file /tmp/satosa.tgz SATOSA-${SATOSA_VERSION%%[a-z]*}/example/; \
+	rm /tmp/satosa.tgz
 
-VOLUME /etc/satosa
 WORKDIR /etc/satosa
 
-COPY --chown=satosa:satosa docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod 0755 /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 8080

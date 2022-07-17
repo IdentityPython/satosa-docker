@@ -3,7 +3,6 @@
     "python_version": "3.10",
     "variants": [
       "bullseye",
-      "slim-bullseye",
       "alpine3.16"
     ],
     "version": "8.1.1"
