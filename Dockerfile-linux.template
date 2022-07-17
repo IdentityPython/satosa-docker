@@ -10,8 +10,8 @@ FROM python:{{ env.python_version }}-{{ env.variant }}
 # runtime dependencies
 RUN set -eux; \
 {{ if is_alpine then ( -}}
-	addgroup satosa; \
-	adduser -D -G satosa satosa; \
+	addgroup --gid 1000 satosa; \
+	adduser -D -G satosa --uid 1000 satosa; \
 	apk add --no-cache \
 		bash \
 		jq \
@@ -20,7 +20,8 @@ RUN set -eux; \
 		xmlsec \
 	; \
 {{ ) else ( -}}
-	useradd -U satosa; \
+	groupadd -g 1000 satosa; \
+	useradd -g 1000 -u 1000 satosa; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		jq \
