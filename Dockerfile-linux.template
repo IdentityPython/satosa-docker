@@ -91,7 +91,6 @@ RUN set -eux; \
 	; \
 {{ ) else "" end -}}
 	pip install --no-cache-dir \
-		ldap3 \
 		satosa==${SATOSA_VERSION} \
 	; \
 {{ if is_alpine then ( -}}
