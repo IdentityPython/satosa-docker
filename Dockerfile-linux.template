@@ -121,7 +121,6 @@ RUN set -eux; \
 	cp -a /tmp/satosa/example /usr/share/satosa; \
 	rm -rf /tmp/satosa
 
-VOLUME /etc/satosa
 WORKDIR /etc/satosa
 
 COPY docker-entrypoint.sh /usr/local/bin/
