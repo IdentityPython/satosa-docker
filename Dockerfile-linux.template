@@ -114,12 +114,9 @@ RUN set -eux; \
 # example configuration
 RUN set -eux; \
 	python -c 'import urllib.request; urllib.request.urlretrieve("https://github.com/IdentityPython/SATOSA/archive/refs/tags/v'${SATOSA_VERSION%%[a-z]*}'.tar.gz","/tmp/satosa.tgz")'; \
-	mkdir /tmp/satosa; \
-	tar --extract --directory /tmp/satosa --strip-components=1 --file /tmp/satosa.tgz; \
-	rm /tmp/satosa.tgz; \
-	mkdir -p /usr/share/satosa; \
-	cp -a /tmp/satosa/example /usr/share/satosa; \
-	rm -rf /tmp/satosa
+	mkdir /usr/share/satosa; \
+	tar --extract --directory /usr/share/satosa --strip-components=1 --file /tmp/satosa.tgz SATOSA-${SATOSA_VERSION%%[a-z]*}/example/; \
+	rm /tmp/satosa.tgz
 
 WORKDIR /etc/satosa
 
