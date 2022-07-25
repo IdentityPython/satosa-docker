@@ -14,7 +14,7 @@ For outstanding `satosa` image PRs, check [PRs with the "library/satosa" label o
 
 ---
 
--	[![build status badge](https://img.shields.io/github/workflow/status/IdentityPython/satosa-docker/GitHub%20CI/master?label=GitHub%20CI)](https://github.com/IdentityPython/satosa-docker/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amaster)
+-	[![build status badge](https://img.shields.io/github/workflow/status/IdentityPython/satosa-docker/GitHub%20CI/main?label=GitHub%20CI)](https://github.com/IdentityPython/satosa-docker/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amain)
 
 | Build | Status | Badges | (per-arch) |
 |:-:|:-:|:-:|:-:|
