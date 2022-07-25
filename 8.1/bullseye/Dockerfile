@@ -26,6 +26,7 @@ RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+		cargo \
 		dpkg-dev \
 		gcc \
 		gnupg dirmngr \
@@ -41,6 +42,7 @@ RUN set -eux; \
 		libsqlite3-dev \
 		libssl-dev \
 		make \
+		python3-dev \
 		tk-dev \
 		uuid-dev \
 		wget \

@@ -26,6 +26,7 @@ RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		bluez-dev \
 		bzip2-dev \
+		cargo \
 		coreutils \
 		dpkg-dev dpkg \
 		expat-dev \
@@ -38,9 +39,11 @@ RUN set -eux; \
 		libtirpc-dev \
 		linux-headers \
 		make \
+		musl-dev \
 		ncurses-dev \
 		openssl-dev \
 		pax-utils \
+		python3-dev \
 		readline-dev \
 		sqlite-dev \
 		tcl-dev \
