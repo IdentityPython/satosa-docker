@@ -140,6 +140,13 @@ for version; do
 				;;
 		esac
 
+		case "$v" in
+			alpine*)
+				# https://github.com/IdentityPython/satosa-docker/issues/1
+				variantArches="$(sed <<<" $variantArches " -e 's/ s390x / /g')"
+				;;
+		esac
+
 		sharedTags=()
 		for windowsShared in windowsservercore nanoserver; do
 			if [[ "$variant" == "$windowsShared"* ]]; then
