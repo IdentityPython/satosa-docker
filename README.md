@@ -36,6 +36,35 @@ Please follow [Angular Commit Message Conventions](https://github.com/angular/an
 - **update**: a helper script that executes both the version tracker and templating engine; currently only [update.sh](update.sh)
 - **versions**: the SATOSA version tracker; includes [versions.sh](versions.sh) and [versions.json](versions.json)
 
+## Development Environment
+
+To develop Docker Official Images, please install the following:
+- [Docker Engine](https://docs.docker.com/engine/install/)
+- the Go language runtime (e.g., [ppa:longsleep/golang-backports](https://launchpad.net/~longsleep/+archive/ubuntu/golang-backports))
+- [bashbrew](https://github.com/docker-library/bashbrew), the Docker Official Images build tool:
+  ```
+  git clone --depth=1 https://github.com/docker-library/bashbrew; \
+  ( \
+      umask 0022; \
+      cd bashbrew; \
+      go mod download; \
+      ./bashbrew.sh --version; \
+      sudo cp bin/bashbrew /usr/local/bin/ \
+  ); \
+  rm -rf bashbrew
+  ```
+- [manifest-tool](https://github.com/estesp/manifest-tool), used to generate the shared tag index:
+  ```bash
+  git clone --depth=1 https://github.com/estesp/manifest-tool; \
+  ( \
+      umask 0022; \
+      cd manifest-tool; \
+      make binary; \
+      sudo cp manifest-tool /usr/local/bin/ \
+  ); \
+  rm -rf manifest-tool
+  ```
+
 ## Update Process
 
 1. If necessary, update the list of version aliases at the beginning of `generate-stackbrew-library.sh`.
