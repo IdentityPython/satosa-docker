@@ -38,32 +38,34 @@ Please follow [Angular Commit Message Conventions](https://github.com/angular/an
 
 ## Development Environment
 
-To develop Docker Official Images, please install the following:
-- [Docker Engine](https://docs.docker.com/engine/install/)
-- the Go language runtime (e.g., [ppa:longsleep/golang-backports](https://launchpad.net/~longsleep/+archive/ubuntu/golang-backports))
-- [bashbrew](https://github.com/docker-library/bashbrew), the Docker Official Images build tool:
-  ```
-  git clone --depth=1 https://github.com/docker-library/bashbrew; \
-  ( \
-      umask 0022; \
-      cd bashbrew; \
-      go mod download; \
-      ./bashbrew.sh --version; \
-      sudo cp bin/bashbrew /usr/local/bin/ \
-  ); \
-  rm -rf bashbrew
-  ```
-- [manifest-tool](https://github.com/estesp/manifest-tool), used to generate the shared tag index:
-  ```bash
-  git clone --depth=1 https://github.com/estesp/manifest-tool; \
-  ( \
-      umask 0022; \
-      cd manifest-tool; \
-      make binary; \
-      sudo cp manifest-tool /usr/local/bin/ \
-  ); \
-  rm -rf manifest-tool
-  ```
+To develop Docker Official Images, please install [bashbrew](https://github.com/docker-library/bashbrew), the Docker Official Images build tool:
+```bash
+git clone --depth=1 https://github.com/docker-library/bashbrew; \
+( \
+    umask 0022; \
+    cd bashbrew; \
+    go mod download; \
+    ./bashbrew.sh --version; \
+    sudo cp bin/bashbrew /usr/local/bin/ \
+); \
+rm -rf bashbrew
+```
+Bashbrew uses [manifest-tool](https://github.com/estesp/manifest-tool) to generate the shared tag index:
+```bash
+git clone --depth=1 https://github.com/estesp/manifest-tool; \
+( \
+    umask 0022; \
+    cd manifest-tool; \
+    make binary; \
+    sudo cp manifest-tool /usr/local/bin/ \
+); \
+rm -rf manifest-tool
+```
+Please make note of these tools' dependencies, in particular [GNU Make](https://www.gnu.org/software/make/) and [Go](https://go.dev/).
+
+The templating engine and version tracker require [jq](https://stedolan.github.io/jq/) and [GNU awk](https://www.gnu.org/software/gawk/).
+
+Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
 
 ## Update Process
 
