@@ -22,6 +22,10 @@ For outstanding `satosa` image PRs, check [PRs with the "library/satosa" label o
 
 ---
 
+## Coding Style
+
+Please follow the style of the other Docker Official Images.  In particular, use tabs for indentation instead of spaces.
+
 ## Git Commit Messages
 
 Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). The following scopes are currently in use:
