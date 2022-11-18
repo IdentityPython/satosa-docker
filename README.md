@@ -99,7 +99,7 @@ Before cloning the repository or working within it, set the [file mode creation 
    Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
    ```
 
-5. GitHub Actions will run two workflows on push. [Verify Templating](actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](actions/workflows/ci.yml) builds and tests all of the container images.
+5. GitHub Actions will run two workflows on push. [Verify Templating](../../actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](../../actions/workflows/ci.yml) builds and tests all of the container images.
 
 6. If both workflows complete successfully, generate a new [Docker Official Images](https://github.com/docker-library/official-images/) library entry by running the following command:
    ```bash
