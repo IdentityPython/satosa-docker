@@ -31,7 +31,7 @@ Please follow the style of the other Docker Official Images.  In particular, use
 Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). The following scopes are currently in use:
 - **docker-entrypoint**: the Dockerfile ENTRYPOINT scripts; currently only [docker-entrypoint.sh](docker-entrypoint.sh)
 - **docker-library**: the Docker Official Images library entry generator; currently only [generate-stackbrew-library.sh](generate-stackbrew-library.sh)
-- **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding variant image definitions in the SATOSA version-specific directories, e.g., [8.1/bullseye](8.1/bullseye)
+- **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding Linux variant image definitions in the SATOSA version-specific directories, e.g., **8.2/bullseye/Dockerfile**
 - **dockerfile-windows**: currently unused
 - **git**: Git repository configuration or GitHub-specific files; includes [.gitignore](.gitignore), [.gitattributes](.gitattributes), and [the GitHub Actions workflows](.github/workflows)
 - **license**: software licensing information; currently only [LICENSE.md](LICENSE.md)
