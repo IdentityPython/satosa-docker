@@ -71,6 +71,8 @@ The templating engine and version tracker require [jq](https://stedolan.github.i
 
 Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
 
+In forks of this repository, enable both GitHub Actions and the GitHub CI workflow after reviewing the workflow definitions.
+
 Before cloning the repository or working within it, set the [file mode creation mask](https://en.wikipedia.org/wiki/Umask) to `0022` or `u=rwx,g=rx,o=rx`.
 
 ## Update Process
