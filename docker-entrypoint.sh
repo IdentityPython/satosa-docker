@@ -123,6 +123,8 @@ function docker_create_config() {
 }
 
 function docker_pprint_metadata() {
+	if [ \( ! -f backend.key \) -o \( ! -f backend.crt \) -o -f backend.xml -o -f frontend.xml ]; then return; fi
+
 	# use the SAML2 backend keymat to temporarily sign the generated metadata
 	touch backend.xml frontend.xml
 	satosa-saml-metadata proxy_conf.yaml backend.key backend.crt
