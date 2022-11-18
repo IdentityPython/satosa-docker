@@ -71,6 +71,8 @@ The templating engine and version tracker require [jq](https://stedolan.github.i
 
 Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
 
+Before cloning the repository or working within it, set the [file mode creation mask](https://en.wikipedia.org/wiki/Umask) to `0022` or `u=rwx,g=rx,o=rx`.
+
 ## Update Process
 
 1. If necessary, update the list of version aliases at the beginning of `generate-stackbrew-library.sh`.
