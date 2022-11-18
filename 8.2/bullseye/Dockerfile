@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.10-slim-bullseye
+FROM python:3.11-slim-bullseye
 
 # runtime dependencies
 RUN set -eux; \
@@ -21,7 +21,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.1.1
+ENV SATOSA_VERSION 8.2.0
 RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \

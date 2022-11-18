@@ -31,7 +31,7 @@ Please follow the style of the other Docker Official Images.  In particular, use
 Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). The following scopes are currently in use:
 - **docker-entrypoint**: the Dockerfile ENTRYPOINT scripts; currently only [docker-entrypoint.sh](docker-entrypoint.sh)
 - **docker-library**: the Docker Official Images library entry generator; currently only [generate-stackbrew-library.sh](generate-stackbrew-library.sh)
-- **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding variant image definitions in the SATOSA version-specific directories, e.g., [8.1/bullseye](8.1/bullseye)
+- **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding Linux variant image definitions in the SATOSA version-specific directories, e.g., **8.2/bullseye/Dockerfile**
 - **dockerfile-windows**: currently unused
 - **git**: Git repository configuration or GitHub-specific files; includes [.gitignore](.gitignore), [.gitattributes](.gitattributes), and [the GitHub Actions workflows](.github/workflows)
 - **license**: software licensing information; currently only [LICENSE.md](LICENSE.md)
@@ -71,6 +71,10 @@ The templating engine and version tracker require [jq](https://stedolan.github.i
 
 Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
 
+In forks of this repository, enable both GitHub Actions and the GitHub CI workflow after reviewing the workflow definitions.
+
+Before cloning the repository or working within it, set the [file mode creation mask](https://en.wikipedia.org/wiki/Umask) to `0022` or `u=rwx,g=rx,o=rx`.
+
 ## Update Process
 
 1. If necessary, update the list of version aliases at the beginning of `generate-stackbrew-library.sh`.
@@ -95,7 +99,7 @@ Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work wi
    Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
    ```
 
-5. GitHub Actions will run two workflows on push. [Verify Templating](actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](actions/workflows/ci.yml) builds and tests all of the container images.
+5. GitHub Actions will run two workflows on push. [Verify Templating](../../actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](../../actions/workflows/ci.yml) builds and tests all of the container images.
 
 6. If both workflows complete successfully, generate a new [Docker Official Images](https://github.com/docker-library/official-images/) library entry by running the following command:
    ```bash
