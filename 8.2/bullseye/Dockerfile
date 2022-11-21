@@ -9,7 +9,7 @@ FROM python:3.11-slim-bullseye
 # runtime dependencies
 RUN set -eux; \
 	groupadd -g 1000 satosa; \
-	useradd -g 1000 -u 1000 satosa; \
+	useradd -m -g 1000 -u 1000 satosa; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		jq \
