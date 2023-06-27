@@ -28,7 +28,7 @@ Please follow the style of the other Docker Official Images.  In particular, use
 
 ## Git Commit Messages
 
-Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). The following scopes are currently in use:
+Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit). The following scopes are currently in use:
 - **docker-entrypoint**: the Dockerfile ENTRYPOINT scripts; currently only [docker-entrypoint.sh](docker-entrypoint.sh)
 - **docker-library**: the Docker Official Images library entry generator; currently only [generate-stackbrew-library.sh](generate-stackbrew-library.sh)
 - **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding Linux variant image definitions in the SATOSA version-specific directories, e.g., **8.2/bullseye/Dockerfile**
@@ -67,7 +67,7 @@ rm -rf manifest-tool
 ```
 Please make note of these tools' dependencies, in particular [GNU Make](https://www.gnu.org/software/make/) and [Go](https://go.dev/).
 
-The templating engine and version tracker require [jq](https://stedolan.github.io/jq/) and [GNU awk](https://www.gnu.org/software/gawk/).
+The templating engine and version tracker require [GNU awk](https://www.gnu.org/software/gawk/), [GNU Find Utilities](https://www.gnu.org/software/findutils/), [GNU Wget](https://www.gnu.org/software/wget/), and [jq](https://stedolan.github.io/jq/).
 
 Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
 
@@ -88,13 +88,13 @@ Before cloning the repository or working within it, set the [file mode creation 
 
 4. Commit all of the modified files. Mention the new SATOSA or base container version in the commit message subject. Reference the release announcement in the commit message body. For example:
    ```
-   feat(*): version bump to SATOSA v8.1.0
+   feat: version bump to SATOSA v8.1.0
 
    Cf. https://github.com/IdentityPython/SATOSA/commit/d44b54433c5b817cf0409855881f6f2c80c27f5c
    ```
    Or for example:
    ```
-   feat(*): version bump to Alpine Linux v3.16
+   feat: version bump to Alpine Linux v3.16
 
    Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
    ```

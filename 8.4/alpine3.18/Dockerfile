@@ -4,58 +4,66 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.11-slim-bullseye
+FROM python:3.11-alpine3.18
 
 # runtime dependencies
 RUN set -eux; \
-	groupadd -g 1000 satosa; \
-	useradd -m -g 1000 -u 1000 satosa; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
+	addgroup --gid 1000 satosa; \
+	adduser -D -G satosa --uid 1000 satosa; \
+	apk add --no-cache \
+		bash \
 		jq \
 		libxml2-utils \
-		xmlsec1 \
+		openssl \
+		xmlsec \
 	; \
-	rm -rf /var/lib/apt/lists/*; \
 	pip install --no-cache-dir \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.2.0
+ENV SATOSA_VERSION 8.4.0
 RUN set -eux; \
-	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
+	apk add --no-cache --virtual .build-deps \
+		bluez-dev \
+		bzip2-dev \
 		cargo \
-		dpkg-dev \
+		coreutils \
+		dpkg-dev dpkg \
+		expat-dev \
+		findutils \
 		gcc \
-		gnupg dirmngr \
-		libbluetooth-dev \
-		libbz2-dev \
-		libc6-dev \
-		libexpat1-dev \
+		gdbm-dev \
+		libc-dev \
 		libffi-dev \
-		libgdbm-dev \
-		liblzma-dev \
-		libncursesw5-dev \
-		libreadline-dev \
-		libsqlite3-dev \
-		libssl-dev \
+		libnsl-dev \
+		libtirpc-dev \
+		linux-headers \
 		make \
+		musl-dev \
+		ncurses-dev \
+		openssl-dev \
+		pax-utils \
 		python3-dev \
+		readline-dev \
+		sqlite-dev \
+		tcl-dev \
+		tk \
 		tk-dev \
-		uuid-dev \
-		wget \
-		xz-utils \
-		zlib1g-dev \
+		util-linux-dev \
+		xz-dev \
+		zlib-dev \
 	; \
 	pip install --no-cache-dir \
 		satosa==${SATOSA_VERSION} \
 	; \
-	apt-mark auto '.*' > /dev/null; \
-	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /var/lib/apt/lists/*; \
+	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
+		| tr ',' '\n' \
+		| sort -u \
+		| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+		| fgrep -v libgcc_s- \
+		| xargs -rt apk add --no-network --virtual .satosa-rundeps \
+	; \
+	apk del --no-network .build-deps; \
 	mkdir /etc/satosa; \
 	chown -R satosa:satosa /etc/satosa
 
