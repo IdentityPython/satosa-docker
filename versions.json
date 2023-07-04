@@ -6,5 +6,21 @@
       "alpine3.16"
     ],
     "version": "8.2.0"
+  },
+  "8.3": {
+    "python_version": "3.11",
+    "variants": [
+      "bullseye",
+      "alpine3.16"
+    ],
+    "version": "8.3.0"
+  },
+  "8.4": {
+    "python_version": "3.11",
+    "variants": [
+      "bullseye",
+      "alpine3.16"
+    ],
+    "version": "8.4.0"
   }
 }
