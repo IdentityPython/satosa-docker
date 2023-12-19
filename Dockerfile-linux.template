@@ -101,6 +101,7 @@ RUN set -eux; \
 		| sort -u \
 		| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 		| fgrep -v libgcc_s- \
+		| fgrep -v libc.so \
 		| xargs -rt apk add --no-network --virtual .satosa-rundeps \
 	; \
 	apk del --no-network .build-deps; \
