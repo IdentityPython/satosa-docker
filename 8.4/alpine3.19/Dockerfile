@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.12-alpine3.18
+FROM python:3.12-alpine3.19
 
 # runtime dependencies
 RUN set -eux; \
