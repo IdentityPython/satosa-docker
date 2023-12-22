@@ -22,99 +22,108 @@ For outstanding `satosa` image PRs, check [PRs with the "library/satosa" label o
 
 ---
 
-## Coding Style
+# Contributing
 
-Please follow the style of the other Docker Official Images.  In particular, use tabs for indentation instead of spaces.
+This project uses the [Git feature branch workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow).  Please submit your changes for review as a [GitHub pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests).
 
-## Git Commit Messages
-
-Please follow [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit). The following scopes are currently in use:
-- **docker-entrypoint**: the Dockerfile ENTRYPOINT scripts; currently only [docker-entrypoint.sh](docker-entrypoint.sh)
-- **docker-library**: the Docker Official Images library entry generator; currently only [generate-stackbrew-library.sh](generate-stackbrew-library.sh)
-- **dockerfile-linux**: all Linux variants of the container image itself; includes [Dockerfile-linux.template](Dockerfile-linux.template) and the corresponding Linux variant image definitions in the SATOSA version-specific directories, e.g., **8.2/bullseye/Dockerfile**
-- **dockerfile-windows**: currently unused
-- **git**: Git repository configuration or GitHub-specific files; includes [.gitignore](.gitignore), [.gitattributes](.gitattributes), and [the GitHub Actions workflows](.github/workflows)
-- **license**: software licensing information; currently only [LICENSE.md](LICENSE.md)
-- **readme**: this file
-- **templating**: the gawk/jq-based templating engine itself, as opposed to the templates; currently only [apply-templates.sh](apply-templates.sh)
-- **update**: a helper script that executes both the version tracker and templating engine; currently only [update.sh](update.sh)
-- **versions**: the SATOSA version tracker; includes [versions.sh](versions.sh) and [versions.json](versions.json)
+In forks of this repository, enable the GitHub Actions workflows. GitHub Actions runs two workflows when developers push commits to a branch. [Verify Templating](actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](actions/workflows/ci.yml) builds and tests the container images.
 
 ## Development Environment
 
-To develop Docker Official Images, please install [bashbrew](https://github.com/docker-library/bashbrew), the Docker Official Images build tool:
-```bash
-git clone --depth=1 https://github.com/docker-library/bashbrew; \
-( \
-    umask 0022; \
-    cd bashbrew; \
-    go mod download; \
-    ./bashbrew.sh --version; \
-    sudo cp bin/bashbrew /usr/local/bin/ \
-); \
-rm -rf bashbrew
-```
-Bashbrew uses [manifest-tool](https://github.com/estesp/manifest-tool) to generate the shared tag index:
-```bash
-git clone --depth=1 https://github.com/estesp/manifest-tool; \
-( \
-    umask 0022; \
-    cd manifest-tool; \
-    make binary; \
-    sudo cp manifest-tool /usr/local/bin/ \
-); \
-rm -rf manifest-tool
-```
-Please make note of these tools' dependencies, in particular [GNU Make](https://www.gnu.org/software/make/) and [Go](https://go.dev/).
+This project uses the following software:
 
-The templating engine and version tracker require [GNU awk](https://www.gnu.org/software/gawk/), [GNU Find Utilities](https://www.gnu.org/software/findutils/), [GNU Wget](https://www.gnu.org/software/wget/), and [jq](https://stedolan.github.io/jq/).
+- [Docker 20.10 or newer](https://docs.docker.com/engine/install/)
 
-Use [qemu-user-static](https://github.com/multiarch/qemu-user-static) to work with multi-architecture containers.
+- [GNU awk](https://www.gnu.org/software/gawk/), [GNU Find Utilities](https://www.gnu.org/software/findutils/), [GNU Wget](https://www.gnu.org/software/wget/), and [jq](https://stedolan.github.io/jq/), for the templating engine and version tracker
 
-In forks of this repository, enable both GitHub Actions and the GitHub CI workflow after reviewing the workflow definitions.
+- [GNU Make](https://www.gnu.org/software/make/) and [Go](https://go.dev/), required by bashbrew and manifest-tool
+
+- [bashbrew](https://github.com/docker-library/bashbrew), the Docker Official Images build tool
+
+- [manifest-tool](https://github.com/estesp/manifest-tool), which generates the shared tag index
+
+- (optional) [qemu-user-static](https://github.com/multiarch/qemu-user-static), to test containers on other hardware architecture via emulation
 
 Before cloning the repository or working within it, set the [file mode creation mask](https://en.wikipedia.org/wiki/Umask) to `0022` or `u=rwx,g=rx,o=rx`.
 
+## Coding Style
+
+Follow [the Docker Official Images review guidelines](https://github.com/docker-library/official-images#review-guidelines) and [Dockerfile best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/).
+
+In Dockerfiles and shell scripts, please use tabs for indentation instead of spaces.
+
+## Commit Messages
+
+This project uses [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).  Valid commit types are:
+
+- **build**—changes to the build system or external dependencies
+
+- **ci**—changes to the CI configuration files and scripts
+
+- **docs**—documentation-only changes
+
+- **feat**—a new feature
+
+- **fix**—a bug fix
+
+- **perf**—a code change that improves performance
+
+- **refactor**—a code change that neither fixes a bug nor adds a feature
+
+- **test**—new tests or corrections to existing tests
+
+No commit scopes are currently in use.
+
 ## Update Process
 
-1. If necessary, update the list of version aliases at the beginning of `generate-stackbrew-library.sh`.
+In a fork of this repository:
 
-2. Update `versions.json` and the container image definitions by running `update.sh`. Specify the desired major and minor version of SATOSA. For example:
+1. Review the list of version aliases at the beginning of `generate-stackbrew-library.sh`.
+
+2. Run [update.sh](update.sh), specifying the desired major and minor version of SATOSA. For example:
+
    ```bash
    ./update.sh 8.1
    ```
 
-3. If necessary, remove outdated versions of SATOSA or the base container images from `versions.json`. Delete the corresponding SATOSA container image definitions, e.g., `8.0/`, `8.1/*alpine3.14*/`.
+3. Remove outdated versions of SATOSA or base container images from `versions.json`, and delete the corresponding SATOSA container image definitions from the repository, e.g., the `8.0/` or `8.1/*alpine3.14*/` folders.
 
-4. Commit all of the modified files. Mention the new SATOSA or base container version in the commit message subject. Reference the release announcement in the commit message body. For example:
-   ```
-   feat: version bump to SATOSA v8.1.0
+4. Mention the new SATOSA or base container version in the commit message subject, reference the release announcement in the commit message body. For example:
 
-   Cf. https://github.com/IdentityPython/SATOSA/commit/d44b54433c5b817cf0409855881f6f2c80c27f5c
-   ```
-   Or for example:
-   ```
-   feat: version bump to Alpine Linux v3.16
+    ```
+    feat: version bump to SATOSA v8.1.0
 
-   Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
-   ```
+    Cf. https://github.com/IdentityPython/SATOSA/commit/d44b54433c5b817cf0409855881f6f2c80c27f5c
+    ```
 
-5. GitHub Actions will run two workflows on push. [Verify Templating](../../actions/workflows/verify-templating.yml) checks for uncommitted changes. [GitHub CI](../../actions/workflows/ci.yml) builds and tests all of the container images.
+    Or for example:
 
-6. If both workflows complete successfully, generate a new [Docker Official Images](https://github.com/docker-library/official-images/) library entry by running the following command:
-   ```bash
-   ./generate-stackbrew-library.sh
-   ```
+    ```
+    feat: version bump to Alpine Linux v3.16
 
-7. Fork and edit [the Docker Official Images library entry for SATOSA](https://github.com/docker-library/official-images/edit/master/library/satosa). Replace its contents with the output of `generate-stackbrew-library.sh`. Use a commit message referencing the release announcement. Submit a pull request when done. For example:
+    Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
+    ```
+
+5. Submit a pull request after both GitHub Actions workflows complete successfully.
+
+After accepting a pull request, fork and edit [the Docker Official Images library entry for SATOSA](https://github.com/docker-library/official-images/edit/master/library/satosa):
+
+1. Replace its contents with the output of [generate-stackbrew-library.sh](generate-stackbrew-library.sh).
+
+2. Use a commit message referencing the release announcement. For example:
+
    ```
    Update SATOSA to v8.0.1
 
    Cf. https://github.com/IdentityPython/SATOSA/commit/1a408439a6b8855346e5ca2c645dee6ab1ce8c0a
    ```
-   Or for example:
+
+    Or for example:
+
    ```
    Update SATOSA base container images to Alpine Linux v3.16
 
    Cf. https://www.alpinelinux.org/posts/Alpine-3.16.0-released.html
    ```
+
+3. Submit a pull request when finished.
