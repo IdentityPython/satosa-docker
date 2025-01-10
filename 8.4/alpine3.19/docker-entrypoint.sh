@@ -96,6 +96,7 @@ function docker_create_config() {
 	_make_conffile plugins/backends/saml2_backend.yaml '
 		del(.config.acr_mapping, .config.idp_blacklist_file, .config.sp_config.metadata.local)
 			| .config.disco_srv = $ENV.SAML2_BACKEND_DISCO_SRV
+			| .config.sp_config.metadata.remote = [{ "url": "https://example.com/saml/idp" }]
 	'
 	if [ -n "${SAML2_BACKEND_CERT}" -a -n "${SAML2_BACKEND_KEY}" ]; then
 		_make_conffile backend.crt '$ENV.SAML2_BACKEND_CERT'
