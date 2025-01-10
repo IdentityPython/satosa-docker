@@ -81,8 +81,7 @@ function docker_setup_env() {
 	export HOSTNAME="$(echo "${BASE_URL}" | sed -E -e 's/https?:\/\///')"
 }
 
-# configure SATOSA initially as an SP-to-IdP proxy using Signet's
-# SAMLtest.ID testing service
+# configure SATOSA initially as an SP-to-IdP proxy pointing to example.com
 function docker_create_config() {
 	_make_conffile proxy_conf.yaml '
 		.BASE = $ENV.BASE_URL
@@ -97,8 +96,8 @@ function docker_create_config() {
 	_make_conffile plugins/backends/saml2_backend.yaml '
 		del(.config.acr_mapping, .config.idp_blacklist_file, .config.sp_config.metadata.local)
 			| .config.disco_srv = $ENV.SAML2_BACKEND_DISCO_SRV
-			| .config.sp_config.metadata.remote = [{ "url": "https://samltest.id/saml/idp" }]
-	'
+			| .config.sp_config.metadata.remote = [{ "url": "https://example.com/saml/idp" }]
+	# '
 	if [ -n "${SAML2_BACKEND_CERT}" -a -n "${SAML2_BACKEND_KEY}" ]; then
 		_make_conffile backend.crt '$ENV.SAML2_BACKEND_CERT'
 		_make_conffile backend.key '$ENV.SAML2_BACKEND_KEY'
@@ -108,7 +107,7 @@ function docker_create_config() {
 
 	_make_conffile plugins/frontends/saml2_frontend.yaml '
 		del(.config.idp_config.metadata.local)
-			| .config.idp_config.metadata.remote = [{ "url": "https://samltest.id/saml/sp" }]
+			| .config.idp_config.metadata.remote = [{ "url": "https://example.com/saml/sp" }]
 	'
 	_make_conffile plugins/frontends/ping_frontend.yaml
 
