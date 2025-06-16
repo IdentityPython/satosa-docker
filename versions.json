@@ -3,7 +3,7 @@
     "python_version": "3.12",
     "variants": [
       "bookworm",
-      "alpine3.19"
+      "alpine3.22"
     ],
     "version": "8.4.0"
   }
