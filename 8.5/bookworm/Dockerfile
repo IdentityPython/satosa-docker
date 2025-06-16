@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.12-slim-bookworm
+FROM python:3.13-slim-bookworm
 
 # runtime dependencies
 RUN set -eux; \
@@ -21,7 +21,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.4.0
+ENV SATOSA_VERSION 8.5.1
 RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
