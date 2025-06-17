@@ -69,7 +69,7 @@ getArches 'satosa'
 cat <<-EOH
 # This file is generated via https://github.com/IdentityPython/satosa-docker/blob/$(fileCommit "$self")/$self
 
-Maintainers: Matthew X. Economou <economoum@niaid.nih.gov> (@niheconomoum)
+Maintainers: Matthew X. Economou <xenophon+idpy@irtnog.org> (@xenophonf)
 GitRepo: https://github.com/IdentityPython/satosa-docker.git
 GitFetch: refs/heads/main
 EOH
