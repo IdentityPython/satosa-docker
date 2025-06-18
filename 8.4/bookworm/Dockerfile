@@ -21,7 +21,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION 8.4.0
+ENV SATOSA_VERSION=8.4.0
 RUN set -eux; \
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \

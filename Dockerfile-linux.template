@@ -31,7 +31,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION {{ .version }}
+ENV SATOSA_VERSION={{ .version }}
 RUN set -eux; \
 {{ if is_alpine then ( -}}
 	apk add --no-cache --virtual .build-deps \
