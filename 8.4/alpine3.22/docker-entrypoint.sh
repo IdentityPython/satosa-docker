@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# usage: file_env VAR [DEFAULT]
+# Usage: file_env VAR [DEFAULT]
 #  e.g.: file_env 'XYZ_PASSWORD' 'example'
-# (will allow for "$XYZ_PASSWORD_FILE" to fill in the value of
-# "$XYZ_PASSWORD" from a file, especially for Docker's secrets
-# feature)
+# (This allows "$XYZ_PASSWORD_FILE" to fill in the value of
+# "$XYZ_PASSWORD" from a file, e.g., Docker secrets.)
 function file_env() {
 	local var="$1"
 	local fileVar="${var}_FILE"
@@ -24,8 +23,7 @@ function file_env() {
 	unset "$fileVar"
 }
 
-# check to see if this file is being run or sourced from another
-# script
+# Check whether this file is being run by another script.
 function _is_sourced() {
 	# https://unix.stackexchange.com/a/215279
 	[ "${#FUNCNAME[@]}" -ge 2 ] \
@@ -33,10 +31,10 @@ function _is_sourced() {
 		&& [ "${FUNCNAME[1]}" = 'source' ]
 }
 
-# usage: _make_conffile DEST_FILE YQ_FILTER
+# Usage: _make_conffile DEST_FILE [JQ_FILTER]
 #  e.g.: _make_conffile proxy_conf.yaml
-# (if DEST_FILE does not exist, create it from the config example,
-# passing it through YQ_FILTER)
+# (If $DEST_FILE does not exist, create it from the config example
+# before passing it through the optional $JQ_FILTER.)
 function _make_conffile() {
 	if [ -f "$1" ]; then return; fi
 	mkdir -p "$(dirname "$1")"
@@ -56,20 +54,20 @@ function _make_conffile() {
 	 esac
 }
 
-# usage: _make_selfsigned DEST_FILE COMMON_NAME
-#  e.g.: _make_selfsigned https
-# (if DEST_FILE.crt and DEST_FILE.key does not exist, generate a new
-# key pair; COMMON_NAME is optional and defaults to the hostname part
-# of $BASE_URL)
+# Usage: _make_selfsigned DEST_FILE [COMMON_NAME]
+#  e.g.: _make_selfsigned https id-proxy.example.com
+# (If $DEST_FILE.crt and $DEST_FILE.key do not exist, generate a new
+# key pair.  COMMON_NAME is optional and defaults to the hostname part
+# of $BASE_URL.)
 function _make_selfsigned() {
 	if [ ! -f "$1.crt" -a ! -f "$1.key" ]; then
 		openssl req -batch -x509 -nodes -days 3650 -newkey rsa:2048 \
 			-keyout "$1.key" -out "$1.crt" \
-			-subj "/CN=${2:-${HOSTNAME}}"
+			-subj "/CN=${2:-${HOSTNAME}}" > /dev/null
 	fi
 }
 
-# load various settings used throughout the script
+# Load various settings used throughout the script.
 function docker_setup_env() {
 	file_env BASE_URL                 https://example.com
 	file_env STATE_ENCRYPTION_KEY     $(python -c 'import random, string; print("".join(random.sample(string.ascii_letters+string.digits,32)))')
@@ -81,13 +79,15 @@ function docker_setup_env() {
 	export HOSTNAME="$(echo "${BASE_URL}" | sed -E -e 's/https?:\/\///')"
 }
 
-# configure SATOSA initially as an SP-to-IdP proxy using Signet's
-# SAMLtest.ID testing service
+# Configure SATOSA.
 function docker_create_config() {
 	_make_conffile proxy_conf.yaml '
-		.BASE = $ENV.BASE_URL
-			| .STATE_ENCRYPTION_KEY = $ENV.STATE_ENCRYPTION_KEY
-			| .FRONTEND_MODULES = [ "plugins/frontends/saml2_frontend.yaml", "plugins/frontends/ping_frontend.yaml" ]
+		.BASE = $ENV.BASE_URL |
+		.STATE_ENCRYPTION_KEY = $ENV.STATE_ENCRYPTION_KEY |
+		.FRONTEND_MODULES = [
+			"plugins/frontends/saml2_frontend.yaml",
+			"plugins/frontends/ping_frontend.yaml"
+		]
 	'
 
 	_make_conffile internal_attributes.yaml '
@@ -95,9 +95,10 @@ function docker_create_config() {
 	'
 
 	_make_conffile plugins/backends/saml2_backend.yaml '
-		del(.config.acr_mapping, .config.idp_blacklist_file, .config.sp_config.metadata.local)
-			| .config.disco_srv = $ENV.SAML2_BACKEND_DISCO_SRV
-			| .config.sp_config.metadata.remote = [{ "url": "https://samltest.id/saml/idp" }]
+		del(.config.acr_mapping) |
+		del(.config.idp_blacklist_file) |
+		del(.config.sp_config.metadata.local) |
+		.config.disco_srv = $ENV.SAML2_BACKEND_DISCO_SRV
 	'
 	if [ -n "${SAML2_BACKEND_CERT}" -a -n "${SAML2_BACKEND_KEY}" ]; then
 		_make_conffile backend.crt '$ENV.SAML2_BACKEND_CERT'
@@ -108,9 +109,7 @@ function docker_create_config() {
 
 	_make_conffile plugins/frontends/saml2_frontend.yaml '
 		del(.config.idp_config.metadata.local)
-			| .config.idp_config.metadata.remote = [{ "url": "https://samltest.id/saml/sp" }]
 	'
-	_make_conffile plugins/frontends/ping_frontend.yaml
 
 	if [ -n "${SAML2_FRONTEND_CERT}" -a -n "${SAML2_FRONTEND_KEY}" ]; then
 		_make_conffile frontend.crt '$ENV.SAML2_FRONTEND_CERT'
@@ -118,6 +117,8 @@ function docker_create_config() {
 	else
 		_make_selfsigned frontend
 	fi
+
+	_make_conffile plugins/frontends/ping_frontend.yaml
 
 	_make_conffile plugins/microservices/static_attributes.yaml
 }
@@ -127,7 +128,7 @@ function docker_pprint_metadata() {
 
 	# use the SAML2 backend keymat to temporarily sign the generated metadata
 	touch backend.xml frontend.xml
-	satosa-saml-metadata proxy_conf.yaml backend.key backend.crt
+	satosa-saml-metadata proxy_conf.yaml backend.key backend.crt > /dev/null
 
 	echo -----BEGIN SAML2 BACKEND METADATA-----
 	xq -x 'del(."ns0:EntityDescriptor"."ns1:Signature")' backend.xml | tee backend.xml.new
