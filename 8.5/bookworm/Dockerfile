@@ -50,7 +50,7 @@ RUN set -eux; \
 		zlib1g-dev \
 	; \
 	pip install --no-cache-dir \
-		satosa==${SATOSA_VERSION} \
+		satosa[idpy_oidc_backend,ldap,pyop_mongo,pyop_redis]==${SATOSA_VERSION} \
 	; \
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \

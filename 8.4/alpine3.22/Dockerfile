@@ -54,7 +54,7 @@ RUN set -eux; \
 		zlib-dev \
 	; \
 	pip install --no-cache-dir \
-		satosa==${SATOSA_VERSION} \
+		satosa[idpy_oidc_backend,ldap,pyop_mongo,pyop_redis]==${SATOSA_VERSION} \
 	; \
 	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
 		| tr ',' '\n' \
