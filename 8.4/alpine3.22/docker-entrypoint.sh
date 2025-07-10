@@ -63,7 +63,7 @@ function _make_selfsigned() {
 	if [ ! -f "$1.crt" -a ! -f "$1.key" ]; then
 		openssl req -batch -x509 -nodes -days 3650 -newkey rsa:2048 \
 			-keyout "$1.key" -out "$1.crt" \
-			-subj "/CN=${2:-${HOSTNAME}}" > /dev/null
+			-subj "/CN=${2:-${HOSTNAME}}" > /dev/null 2>&1
 	fi
 }
 

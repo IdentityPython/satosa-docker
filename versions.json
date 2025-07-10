@@ -1,6 +1,6 @@
 {
   "8.4": {
-    "python_version": "3.12",
+    "python_version": "3.13",
     "variants": [
       "bookworm",
       "alpine3.22"
