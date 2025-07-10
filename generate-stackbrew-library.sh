@@ -137,13 +137,16 @@ for version; do
 			*)
 				variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$dir/Dockerfile")"
 				variantArches="${parentRepoToArches[$variantParent]}"
+				# https://github.com/IdentityPython/satosa-docker/issues/11
+				variantArches="$(sed <<<" $variantArches " -e 's/ *arm32.. */ /g')"
+				variantArches="$(sed <<<" $variantArches " -e 's/ i386 / /')"
 				;;
 		esac
 
 		case "$v" in
 			alpine*)
 				# https://github.com/IdentityPython/satosa-docker/issues/1
-				variantArches="$(sed <<<" $variantArches " -e 's/ s390x / /g')"
+				variantArches="$(sed <<<" $variantArches " -e 's/ s390x / /')"
 				;;
 		esac
 
