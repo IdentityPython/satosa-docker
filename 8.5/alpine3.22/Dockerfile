@@ -28,7 +28,8 @@ RUN set -eux; \
 		bzip2-dev \
 		cargo \
 		coreutils \
-		dpkg-dev dpkg \
+		dpkg \
+		dpkg-dev \
 		expat-dev \
 		findutils \
 		gcc \
@@ -43,6 +44,7 @@ RUN set -eux; \
 		ncurses-dev \
 		openssl-dev \
 		pax-utils \
+		pkgconfig \
 		python3-dev \
 		readline-dev \
 		sqlite-dev \

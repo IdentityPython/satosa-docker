@@ -27,9 +27,10 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		cargo \
+		dirmngr \
 		dpkg-dev \
 		gcc \
-		gnupg dirmngr \
+		gnupg \
 		libbluetooth-dev \
 		libbz2-dev \
 		libc6-dev \
@@ -42,6 +43,7 @@ RUN set -eux; \
 		libsqlite3-dev \
 		libssl-dev \
 		make \
+		pkg-config \
 		python3-dev \
 		tk-dev \
 		uuid-dev \
