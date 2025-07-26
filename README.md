@@ -25,11 +25,9 @@ For the current "source of truth" for the `satosa` image, see
 ---
 
 [![build status badge](https://img.shields.io/github/workflow/status/IdentityPython/satosa-docker/GitHub%20CI/main?label=GitHub%20CI)](https://github.com/IdentityPython/satosa-docker/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amain)
-
-| Build | Status | Badges | (per-arch) |
-|:-:|:-:|:-:|:-:|
-| [![amd64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa.svg?label=amd64)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa/) | [![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa/) | [![ppc64le build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/satosa.svg?label=ppc64le)](https://doi-janky.infosiftr.net/job/multiarch/job/ppc64le/job/satosa/) | [![riscv64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/riscv64/job/satosa.svg?label=riscv64)](https://doi-janky.infosiftr.net/job/multiarch/job/riscv64/job/satosa/) |
-| [![s390x build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/s390x/job/satosa.svg?label=s390x)](https://doi-janky.infosiftr.net/job/multiarch/job/s390x/job/satosa/) | [![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa/) | | |
+[![amd64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa.svg?label=amd64)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa/)
+[![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa/)
+[![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa/)
 
 ---
 

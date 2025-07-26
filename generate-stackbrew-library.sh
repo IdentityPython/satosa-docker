@@ -130,36 +130,18 @@ for version; do
 		variantAliases=( "${variantAliases[@]//latest-/}" )
 
 		case "$v" in
-			windows/*)
-				variantArches='windows-amd64'
-				;;
-
 			*)
-				variantParent="$(awk 'toupper($1) == "FROM" { print $2 }' "$dir/Dockerfile")"
-				variantArches="${parentRepoToArches[$variantParent]}"
-				# https://github.com/IdentityPython/satosa-docker/issues/11
-				variantArches="$(sed <<<" $variantArches " -e 's/ *arm32.. */ /g')"
-				variantArches="$(sed <<<" $variantArches " -e 's/ i386 / /')"
-				;;
-		esac
-
-		case "$v" in
-			alpine*)
-				# https://github.com/IdentityPython/satosa-docker/issues/1
-				variantArches="$(sed <<<" $variantArches " -e 's/ s390x / /')"
+				# The cryptography library isn't well
+				# supported on other architectures, so
+				# give up on them for now;
+				# cf. IdentityPython/satosa-docker#15.
+				variantArches="amd64 arm64v8"
 				;;
 		esac
 
 		sharedTags=()
-		for windowsShared in windowsservercore nanoserver; do
-			if [[ "$variant" == "$windowsShared"* ]]; then
-				sharedTags=( "${versionAliases[@]/%/-$windowsShared}" )
-				sharedTags=( "${sharedTags[@]//latest-/}" )
-				break
-			fi
-		done
 
-		if [ "$variant" = "$defaultDebianVariant" ] || [[ "$variant" == 'windowsservercore'* ]]; then
+		if [ "$variant" = "$defaultDebianVariant" ]; then
 			sharedTags+=( "${versionAliases[@]}" )
 		fi
 
