@@ -1,3 +1,9 @@
+[![Docker Hub star count badge](https://img.shields.io/docker/stars/_/satosa.svg)](https://hub.docker.com/_/satosa)
+[![Docker Hub pull count badge](https://img.shields.io/docker/pulls/_/satosa.svg)](https://hub.docker.com/_/satosa)
+[![GitHub CI build status badge](https://img.shields.io/github/actions/workflow/status/IdentityPython/satosa-docker/ci.yml?branch=main&label=GitHub%20CI)](https://github.com/IdentityPython/satosa-docker/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amain)
+[![repo-info build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/repo-info/job/local/job/satosa.svg?label=repo-info)](https://doi-janky.infosiftr.net/job/repo-info/job/local/job/satosa/)
+[![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa/)
+
 # satosa-docker
 
 This is the source repository of the
@@ -20,16 +26,6 @@ For outstanding `satosa` image PRs, check
 [PRs with the "library/satosa" label on the official-images repository](https://github.com/docker-library/official-images/labels/library%2Fsatosa).
 For the current "source of truth" for the `satosa` image, see
 [the `library/satosa` file in the official-images repository](https://github.com/docker-library/official-images/blob/master/library/satosa).
-
-
----
-
-[![build status badge](https://img.shields.io/github/workflow/status/IdentityPython/satosa-docker/GitHub%20CI/main?label=GitHub%20CI)](https://github.com/IdentityPython/satosa-docker/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amain)
-[![amd64 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa.svg?label=amd64)](https://doi-janky.infosiftr.net/job/multiarch/job/amd64/job/satosa/)
-[![arm64v8 build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa.svg?label=arm64v8)](https://doi-janky.infosiftr.net/job/multiarch/job/arm64v8/job/satosa/)
-[![put-shared build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa.svg?label=put-shared)](https://doi-janky.infosiftr.net/job/put-shared/job/light/job/satosa/)
-
----
 
 
 # Contributing
