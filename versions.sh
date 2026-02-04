@@ -22,7 +22,7 @@ eval $(
 		| jq -r '
 			. as $versions
 			| [ $versions|keys[] | select(contains("-rc") | not) ] | sort_by(split(".") | map(tonumber)) | last as $latest
-			| [ $versions | .[$latest].variants[] | select(test("alpine3.22|slim-bookworm")) ] | join(" ") as $variants
+			| [ $versions | .[$latest].variants[] | select(test("alpine3.23|slim-trixie")) ] | join(" ") as $variants
 			| @sh "export python_version=\($latest) variants=\($variants)"
 		'
 )
@@ -48,7 +48,7 @@ for version in "${versions[@]}"; do
 	export fullVersion
 	json="$(jq <<<"$json" -c '
 		.[env.version] = {
-			variants: env.variants | sub("slim-"; "") | split(" "),
+			variants: env.variants | gsub("slim-"; "") | split(" "),
 			version: env.fullVersion,
 			python_version: env.python_version,
 		}

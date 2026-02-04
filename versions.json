@@ -1,9 +1,9 @@
 {
   "8.5": {
-    "python_version": "3.13",
+    "python_version": "3.14",
     "variants": [
-      "bookworm",
-      "alpine3.22"
+      "trixie",
+      "alpine3.23"
     ],
     "version": "8.5.1"
   }
