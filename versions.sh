@@ -3,7 +3,7 @@ set -Eeuo pipefail
 shopt -s nullglob
 
 # operate in same directory as this script
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # when bootstrapping, create a directory for each desired SATOSA
 # version, then run this script with no arguments
@@ -21,9 +21,11 @@ eval $(
 	curl -s https://raw.githubusercontent.com/docker-library/python/master/versions.json \
 		| jq -r '
 			. as $versions
-			| [ $versions|keys[] | select(contains("-rc") | not) ] | sort_by(split(".") | map(tonumber)) | last as $latest
-			| [ $versions | .[$latest].variants[] | select(test("alpine3.19|slim-bookworm")) ] | join(" ") as $variants
-			| @sh "export python_version=\($latest) variants=\($variants)"
+			| [ $versions|keys[] | select(contains("-rc") | not) ] | sort_by(split(".") | map(tonumber)) | last as $latest_python
+			| [ $versions | .[$latest].variants[] | select(test("alpine")) ] | sort_by(ltrimstr("alpine") | split(".") | map(tonumber)) | last as $latest_alpine
+			| [ $versions | .[$latest].variants[] | select(test("slim-bookworm")) ] | join(" ") as $latest_debian
+                        | $latest_alpine + " " + $latest_debian as $variants
+			| @sh "export python_version=\($latest_python) variants=\($variants)"
 		'
 )
 

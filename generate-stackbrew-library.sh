@@ -5,8 +5,8 @@ declare -A aliases=(
 	[8.4]='8 latest'
 )
 
-self="$(basename "$BASH_SOURCE")"
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
+self="$(basename "${BASH_SOURCE[0]}")"
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "$#" -eq 0 ]; then
 	versions="$(jq -r 'keys | map(@sh) | join(" ")' versions.json)"
@@ -69,7 +69,7 @@ getArches 'satosa'
 cat <<-EOH
 # This file is generated via https://github.com/IdentityPython/satosa-docker/blob/$(fileCommit "$self")/$self
 
-Maintainers: Matthew X. Economou <economoum@niaid.nih.gov> (@niheconomoum)
+Maintainers: Matthew X. Economou <xenophon+idpy@irtnog.org> (@xenophonf)
 GitRepo: https://github.com/IdentityPython/satosa-docker.git
 GitFetch: refs/heads/main
 EOH
