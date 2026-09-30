@@ -4,69 +4,60 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.14-alpine3.23
+FROM python:3.14-slim-trixie
 
 # runtime dependencies
 RUN set -eux; \
-	addgroup --gid 1000 satosa; \
-	adduser -D -G satosa --uid 1000 satosa; \
-	apk add --no-cache \
-		bash \
+	groupadd -g 1000 satosa; \
+	useradd -m -g 1000 -u 1000 satosa; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
 		jq \
 		libxml2-utils \
-		openssl \
-		xmlsec \
+		xmlsec1 \
 	; \
+	rm -rf /var/lib/apt/lists/*; \
 	pip install --no-cache-dir \
 		yq \
 	;
 
-ENV SATOSA_VERSION=8.5.1
+ENV SATOSA_VERSION=8.6.0
 RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
-		bluez-dev \
-		bzip2-dev \
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
 		cargo \
-		coreutils \
-		dpkg \
+		dirmngr \
 		dpkg-dev \
-		expat-dev \
-		findutils \
 		gcc \
-		gdbm-dev \
-		libc-dev \
+		gnupg \
+		libbluetooth-dev \
+		libbz2-dev \
+		libc6-dev \
+		libexpat1-dev \
 		libffi-dev \
-		libnsl-dev \
-		libtirpc-dev \
-		linux-headers \
+		libgdbm-dev \
+		liblzma-dev \
+		libncursesw5-dev \
+		libreadline-dev \
+		libsqlite3-dev \
+		libssl-dev \
 		make \
-		musl-dev \
-		ncurses-dev \
-		openssl-dev \
-		pax-utils \
-		pkgconfig \
+		pkg-config \
 		python3-dev \
-		readline-dev \
-		sqlite-dev \
-		tcl-dev \
-		tk \
 		tk-dev \
-		util-linux-dev \
-		xz-dev \
-		zlib-dev \
+		uuid-dev \
+		wget \
+		xz-utils \
+		zlib1g-dev \
 	; \
 	pip install --no-cache-dir \
 		satosa[idpy_oidc_backend,ldap,pyop_mongo,pyop_redis]==${SATOSA_VERSION} \
 	; \
-	find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
-		| tr ',' '\n' \
-		| sort -u \
-		| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-		| fgrep -v libgcc_s- \
-		| fgrep -v libc.so \
-		| xargs -rt apk add --no-network --virtual .satosa-rundeps \
-	; \
-	apk del --no-network .build-deps; \
+	apt-mark auto '.*' > /dev/null; \
+	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /var/lib/apt/lists/*; \
 	mkdir /etc/satosa; \
 	chown -R satosa:satosa /etc/satosa
 
