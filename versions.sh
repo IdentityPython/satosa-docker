@@ -22,7 +22,7 @@ eval $(
 		| jq -r '
 			. as $versions
 			| [ $versions|keys[] | select(contains("-rc") | not) ] | sort_by(split(".") | map(tonumber)) | last as $latest
-			| [ $versions | .[$latest].variants[] | select(test("alpine3.23|slim-trixie")) ] | join(" ") as $variants
+			| [ $versions | .[$latest].variants[] | select(test("alpine3.24|slim-trixie")) ] | join(" ") as $variants
 			| @sh "export python_version=\($latest) variants=\($variants)"
 		'
 )

@@ -1,10 +1,10 @@
 {
-  "8.5": {
+  "8.6": {
     "python_version": "3.14",
     "variants": [
       "trixie",
-      "alpine3.23"
+      "alpine3.24"
     ],
-    "version": "8.5.1"
+    "version": "8.6.0"
   }
 }
