@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM python:3.14-alpine3.23
+FROM python:3.14-alpine3.24
 
 # runtime dependencies
 RUN set -eux; \
@@ -21,7 +21,7 @@ RUN set -eux; \
 		yq \
 	;
 
-ENV SATOSA_VERSION=8.5.1
+ENV SATOSA_VERSION=8.6.0
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		bluez-dev \
